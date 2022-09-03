@@ -1,18 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameEvents : MonoBehaviour
+public static class GameEvents
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static event Action ProjectileFired;
+    public static event Action AsteroidHitByProjectile;
 
-    // Update is called once per frame
-    void Update()
+    public static void FireProjectileFired()
     {
-        
+        if (ProjectileFired != null)
+            ProjectileFired();
     }
+    
+    public static void FireAsteroidHitByProjectile()
+    {
+        if (ProjectileFired != null)
+            ProjectileFired();
+    }
+    
+    
 }

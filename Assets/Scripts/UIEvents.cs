@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIEvents : MonoBehaviour
+public static class UIEvents
 {
-    public event Action MoveForwardPressed;
-    public event Action MoveRightPressed;
-    public event Action MoveLeftPressed;
-    public event Action MoveBackPressed;
+    public static event Action MoveForwardPressed;
+    public static event Action MoveRightPressed;
+    public static event Action MoveLeftPressed;
+    public static event Action MoveBackPressed;
 }

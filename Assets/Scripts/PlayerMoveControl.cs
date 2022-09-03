@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveControl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody m_rigidbody;
+     
+    public void Start()
     {
-        
+        m_rigidbody = GetComponent<Rigidbody>();
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
         
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            m_rigidbody.AddForce(Vector3.up * 10f);
+        }
     }
 }
