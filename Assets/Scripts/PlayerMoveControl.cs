@@ -11,12 +11,12 @@ public class PlayerMoveControl : MonoBehaviour
     
     public void Start()
     {
-        GameEvents.BorderEnter += GameEventsOnBorderEnter;
+        GameEvents.BorderExit += GameEventsOnBorderExit;
         m_rigidbody = GetComponent<Rigidbody>();
         m_collider = GetComponent<Collider>();
     }
 
-    private void GameEventsOnBorderEnter(BorderType borderType, Collider teleportCollider)
+    private void GameEventsOnBorderExit(BorderType borderType, Collider teleportCollider)
     {
         float distanceBetweenTopAndBottom = Mathf.Abs(GameObject.Find("BottomBorder").transform.position.y - GameObject.Find("TopBorder").transform.position.y);
         float distanceBetweenLeftAndRight = Mathf.Abs(GameObject.Find("LeftBorder").transform.position.x - GameObject.Find("RightBorder").transform.position.x);;
@@ -26,14 +26,7 @@ public class PlayerMoveControl : MonoBehaviour
             switch (borderType)
             {
                 case BorderType.Bottom:
-                    // Vector3 teleportPos = transform.position +
-                    //                       Camera.main.ScreenToWorldPoint(Vector3.right * Screen.height + Vector3.right * 10);
-                    Vector3 teleportPos = transform.position + (Vector3.up * distanceBetweenTopAndBottom);
-                    teleportPos = new Vector3(0, distanceBetweenTopAndBottom, 0);
-                    Debug.LogFormat("TeleportPos: {0}", teleportPos);
-                    // teleportPos.z = 0;
-                    // Debug.LogFormat("Current Pos:{0} CalculatedPos: {1}", transform.position, Camera.main.ScreenToWorldPoint(transform.position + (Vector3.up * Screen.height)));
-                    // transform.position = ((transform.position + teleportPos) - Vector3.up);
+                    
                     transform.position = new Vector3(transform.position.x, transform.position.y + distanceBetweenTopAndBottom, 0);
                     break;
                 case BorderType.Left:

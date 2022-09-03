@@ -9,7 +9,7 @@ public class ScreenWrapper : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        GameEvents.FireBorderEnter(m_borderType, other);
+        GameEvents.FireBorderExit(m_borderType, other);
         // switch (m_borderType)
         // {
         //     case BorderType.Bottom:
