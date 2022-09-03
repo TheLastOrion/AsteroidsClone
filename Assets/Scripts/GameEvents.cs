@@ -7,6 +7,7 @@ public static class GameEvents
 {
     public static event Action ProjectileFired;
     public static event Action AsteroidHitByProjectile;
+    public static event Action<BorderType, Collider> BorderExit;
 
     public static void FireProjectileFired()
     {
@@ -18,6 +19,12 @@ public static class GameEvents
     {
         if (ProjectileFired != null)
             ProjectileFired();
+    }
+
+    public static void FireBorderExit(BorderType borderType, Collider collider)
+    {
+        if (BorderExit != null)
+            BorderExit(borderType, collider);
     }
     
     
