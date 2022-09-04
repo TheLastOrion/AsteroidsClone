@@ -1415,6 +1415,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fighter
       objectReference: {fileID: 0}
+    - target: {fileID: 6371171099993599811, guid: f6f6b63bce0f5a149bc425892a41a1b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6371171099993599814, guid: f6f6b63bce0f5a149bc425892a41a1b1,
         type: 3}
       propertyPath: m_RootOrder

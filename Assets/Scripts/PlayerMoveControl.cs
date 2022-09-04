@@ -18,7 +18,7 @@ public class PlayerMoveControl : MonoBehaviour
     {
         if (teleportCollider == m_collider)
         {
-            transform.position = CalculationUtils.FindTeleportPlace(transform, borderType);
+            transform.position = GameUtils.FindTeleportPlace(transform, borderType);
         }
     }
 

@@ -20,6 +20,7 @@ public class ProjectileControl : MonoBehaviour, IPoolable
     }
     private void OnDisable()
     {        
+        Debug.Log("Desubscribing from OnBorderExit Event!");
         GameEvents.BorderExit -=GameEventsOnBorderExit;
     }
 
@@ -27,7 +28,7 @@ public class ProjectileControl : MonoBehaviour, IPoolable
     {
         if (teleportCollider == m_collider)
         {
-            transform.position = CalculationUtils.FindTeleportPlace(transform, borderType);
+            transform.position = GameUtils.FindTeleportPlace(transform, borderType);
         }    
     }
     private void OnTriggerEnter(Collider otherCollider)
@@ -40,7 +41,6 @@ public class ProjectileControl : MonoBehaviour, IPoolable
 
         }
     }
-
     public void DeSpawn()
     {
         Debug.LogFormat("Despawning {0}", gameObject.name);

@@ -18,7 +18,7 @@ public static class GameEvents
     public static void FireAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
     {
         if (AsteroidHitByProjectile != null)
-            FireAsteroidHitByProjectile(projectileCollider, asteroidCollider);
+            AsteroidHitByProjectile(projectileCollider, asteroidCollider);
     }
 
     public static void FireBorderExit(BorderType borderType, Collider collider)

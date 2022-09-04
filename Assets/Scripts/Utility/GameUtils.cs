@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class CalculationUtils
+public static class GameUtils
 {
     public static Vector3 FindTeleportPlace(Transform transform, BorderType borderType)
     {
@@ -50,5 +50,9 @@ public static class CalculationUtils
     {
         return Mathf.Abs(GameObject.Find("LeftBorder").transform.position.x - GameObject.Find("RightBorder").transform.position.x);
 
+    }
+    public static Vector3 GetRandomizeDirectionVector()
+    {
+        return new Vector3(Random.Range(0, 359), Random.Range(0, 359), 0);
     }
 }

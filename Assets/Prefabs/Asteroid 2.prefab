@@ -311,6 +311,8 @@ GameObject:
   - component: {fileID: 678478938}
   - component: {fileID: 678478937}
   - component: {fileID: 678478936}
+  - component: {fileID: 6653735562909621802}
+  - component: {fileID: -3487501500017579563}
   m_Layer: 0
   m_Name: Asteroid 2
   m_TagString: Enemy
@@ -387,3 +389,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_rotateSpeed: 0.5
+--- !u!114 &6653735562909621802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219311190981214053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f36ece7455a2341a0c041ad5b02f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_speed: 0
+  m_asteroidSize: 0
+--- !u!114 &-3487501500017579563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219311190981214053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513f8c732c7552b4aae0944a25d0d083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoolableType: 2
