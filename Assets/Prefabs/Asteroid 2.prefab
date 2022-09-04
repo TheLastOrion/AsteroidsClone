@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 5668280174247994173}
   - component: {fileID: 678478938}
   - component: {fileID: 678478937}
+  - component: {fileID: 678478936}
   m_Layer: 0
   m_Name: Asteroid 2
   m_TagString: Enemy
@@ -373,3 +374,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86a1a92dd1046944b3b42ca723ebf5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &678478936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219311190981214053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de241c133f320d4d93de3c3a90be9d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_rotateSpeed: 0.5
