@@ -6,7 +6,7 @@ using UnityEngine;
 public static class GameEvents
 {
     public static event Action ProjectileFired;
-    public static event Action AsteroidHitByProjectile;
+    public static event Action<Collider, Collider> AsteroidHitByProjectile;
     public static event Action<BorderType, Collider> BorderExit;
 
     public static void FireProjectileFired()
