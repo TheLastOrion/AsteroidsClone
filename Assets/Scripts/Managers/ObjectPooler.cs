@@ -56,11 +56,12 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    public void AddGameObjectToPool(GameObject go)
+    public GameObject AddGameObjectToPool(GameObject go)
     {
         if (go.GetComponent<PooledObject>() == null)
         {
             Debug.LogErrorFormat("Object is not set to be poolable, returning null");
+            return null;
         }
         PoolableType type = go.GetComponent<PooledObject>().PoolableType;
         
@@ -70,16 +71,20 @@ public class ObjectPooler : MonoBehaviour
             if (poolableObject.GetPoolableType() == type)
             {
                 go = Instantiate(go, poolableObject.GetParentTransform());
-                go.transform.parent = poolableObject.GetParentTransform();
+                // go.transform.parent = poolableObject.GetParentTransform();
                 go.SetActive(false);
                 go.transform.position = Vector3.zero;
-                List<GameObject> tempList = poolableObject.GetList();
-                tempList.Add(go);
-                poolableObject.SetList(tempList);
+                poolableObject.GetList().Add(go);
+                // List<GameObject> tempList = poolableObject.GetList();
+                // tempList.Add(go);
+                // poolableObject.SetList(tempList);
                 
                 Debug.LogFormat("Adding extra gameobject {0} to its pool!", go.name);
+                return go;
             }
         }
+        Debug.LogErrorFormat("Something is wrong, returning null");
+        return null;
 
     }
 
@@ -102,7 +107,7 @@ public class ObjectPooler : MonoBehaviour
                     if (!returnObject.activeSelf)
                         return returnObject;
                 }
-                AddGameObjectToPool(go);
+                return AddGameObjectToPool(go);
                 return go;
             }
         }

@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Constants : MonoBehaviour
+public static class Constants
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public const float SPAWN_MIN_COORD_X = -7;
+    public const float SPAWN_MAX_COORD_X = 7;
+    public const float SPAWN_MIN_COORD_Y = -3;
+    public const float SPAWN_MAX_COORD_Y = -5;
+    
 }

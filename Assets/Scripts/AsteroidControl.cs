@@ -68,7 +68,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     public void SetMovement(Vector3 direction)
     {
         if (!gameObject.activeInHierarchy)
-            gameObject.SetActive(true);
+            return;
         _moveCoroutine = StartCoroutine(MoveCoroutine(direction));
     }
 

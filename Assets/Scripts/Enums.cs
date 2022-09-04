@@ -14,4 +14,4 @@ public enum PoolableType {
     SmallAsteroid3
 }
 
-public enum AsteroidSize {Large, Medium, Small}
+public enum AsteroidSize {Small, Medium, Large}

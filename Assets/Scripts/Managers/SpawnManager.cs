@@ -52,9 +52,17 @@ public class SpawnManager : MonoBehaviour
                 Debug.LogErrorFormat("Asteroid Type not found, likely a bug!");
                 break;
         }
+
+        asteroid = ObjectPooler.Instance.GetPooledObject(SmallAsteroidTypes[0]);
         AsteroidControl asteroidControl = asteroid.GetComponentInChildren<AsteroidControl>();
-        asteroid.transform.position = new Vector3(Random.Range(-7, 7), Random.Range(-3, 5));
-        asteroid.transform.SetParent(this.transform);
+        asteroid.transform.position = new Vector3(
+            Random.Range(
+                Constants.SPAWN_MIN_COORD_X, 
+                Constants.SPAWN_MAX_COORD_X), 
+            Random.Range(
+                Constants.SPAWN_MIN_COORD_Y, 
+                Constants.SPAWN_MAX_COORD_Y));
+        asteroid.transform.SetParent(transform);
         asteroidControl.SetRandomSpeed();
         asteroid.SetActive(true);
         asteroidControl.SetMovement(GameUtils.GetRandomizeDirectionVector());
