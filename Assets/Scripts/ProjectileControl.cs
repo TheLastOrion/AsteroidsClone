@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileControl : MonoBehaviour, IPoolable
+public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
 {
     [Range(5f,15f)][SerializeField]private float _speed;
     [SerializeField] private float _timer;
@@ -63,7 +63,6 @@ public class ProjectileControl : MonoBehaviour, IPoolable
         float temp = _timer;
         yield return new WaitForSeconds(temp);
         DeSpawn();
-        
     }
 
     private IEnumerator MoveCoroutine(Vector3 direction)

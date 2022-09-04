@@ -19,13 +19,13 @@ public class ColliderTestScript : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.LogFormat("Trigger Enter! Collider: {0} Collision: {1}", this.gameObject.name, other.gameObject.name);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Debug.LogFormat("Trigger Exit! Collider: {0} Collision: {1}", this.gameObject.name, other.gameObject.name);
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     Debug.LogFormat("Trigger Enter! Collider: {0} Collision: {1}", this.gameObject.name, other.gameObject.name);
+    // }
+    //
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     Debug.LogFormat("Trigger Exit! Collider: {0} Collision: {1}", this.gameObject.name, other.gameObject.name);
+    // }
 }

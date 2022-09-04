@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class AsteroidControl : MonoBehaviour, IPoolable
+public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
 {
-    [SerializeField] private float m_speed;
+    [FormerlySerializedAs("m_speed")] [SerializeField] private float _speed;
 
     private Vector3 _direction;
-
+    private Coroutine _moveCoroutine;
     public Vector3 Direction
     {
         get => _direction;
@@ -34,6 +32,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable
     private void OnDisable()
     {
         GameEvents.AsteroidHitByProjectile -= GameEventsOnAsteroidHitByProjectile;
+        if(_moveCoroutine != null)StopCoroutine(_moveCoroutine);
     }
 
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
@@ -53,21 +52,31 @@ public class AsteroidControl : MonoBehaviour, IPoolable
             DeSpawn();
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    public void SetMovement(Vector3 direction)
     {
-        
+        _moveCoroutine = StartCoroutine(MoveCoroutine(direction));
+    }
+
+    public void SetRandomSpeed()
+    {
+        _speed = Random.Range(1f, 3f);
+    }
+    private IEnumerator MoveCoroutine(Vector3 direction)
+    {
+        while (true)
+        {
+            yield return new WaitForFixedUpdate();
+            transform.Translate(direction.normalized * (_speed * Time.deltaTime));
+        }    
     }
 
     public AsteroidSize GetAsteroidSize()
     {
         return _asteroidSize;
     }
-
-    
     public void DeSpawn()
     {
         Debug.LogFormat("Despawning {0}", gameObject.name);
-        ObjectPooler.Instance.RecyclePooledObject(gameObject);    }
+        ObjectPooler.Instance.RecyclePooledObject(gameObject);
+    }
 }

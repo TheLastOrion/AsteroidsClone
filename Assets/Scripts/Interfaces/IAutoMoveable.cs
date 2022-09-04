@@ -3,6 +3,5 @@ using UnityEngine;
 
 public interface IAutoMoveable
 {
-    void setMovement();
-    IEnumerator MoveCoroutine();
+    void SetMovement(Vector3 direction);
 }
