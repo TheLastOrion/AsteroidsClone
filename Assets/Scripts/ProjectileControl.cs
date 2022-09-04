@@ -35,9 +35,9 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
     {        
         Debug.Log("Desubscribing from OnBorderExit Event!");
         GameEvents.BorderExit -=GameEventsOnBorderExit;
-        // if(_despawnCoroutine != null)
+        if(_despawnCoroutine != null)
             StopCoroutine(_despawnCoroutine);
-        // if(_moveCoroutine != null)
+        if(_moveCoroutine != null)
             StopCoroutine(_moveCoroutine);
     }
 

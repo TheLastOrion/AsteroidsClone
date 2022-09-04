@@ -170,7 +170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3098642201453474403}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -1, z: 0}
+  m_LocalPosition: {x: -3, y: 1, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 3098642201453662289}
@@ -204,7 +204,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 8
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &5022917428837649493
 MonoBehaviour:
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f36ece7455a2341a0c041ad5b02f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1.3437636
+  _speed: 2.1797698
   _asteroidSize: 2
 --- !u!114 &606770101300526544
 MonoBehaviour:
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513f8c732c7552b4aae0944a25d0d083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PoolableType: 1
+  PoolableType: 7
 --- !u!1 &3098642201453492871
 GameObject:
   m_ObjectHideFlags: 0

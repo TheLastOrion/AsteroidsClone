@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
 {
     [FormerlySerializedAs("m_speed")] [SerializeField] private float _speed;
-
+    private Transform _moveTransform;
     private Vector3 _direction;
     private Coroutine _moveCoroutine;
     public Vector3 Direction
@@ -18,6 +18,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     [SerializeField] private AsteroidSize _asteroidSize;
     void Start()
     {
+        _moveTransform = transform.parent;
         if (_collider == null)
         {
             _collider = GetComponent<Collider>();
@@ -27,11 +28,16 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     void OnEnable()
     {
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
+        GameEvents.BorderExit += GameEventsOnBorderExit;
     }
+
+    
 
     private void OnDisable()
     {
         GameEvents.AsteroidHitByProjectile -= GameEventsOnAsteroidHitByProjectile;
+        GameEvents.BorderExit -= GameEventsOnBorderExit;
+
         if(_moveCoroutine != null)StopCoroutine(_moveCoroutine);
     }
 
@@ -40,6 +46,13 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         if (asteroidCollider == _collider)
         {
             DeSpawn();
+        }
+    }
+    private void GameEventsOnBorderExit(BorderType borderType, Collider teleportCollider)
+    {
+        if (teleportCollider == _collider)
+        {
+            transform.position = GameUtils.FindTeleportPlace(transform, borderType);
         }
     }
     
@@ -54,6 +67,8 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     }
     public void SetMovement(Vector3 direction)
     {
+        if (!gameObject.activeInHierarchy)
+            gameObject.SetActive(true);
         _moveCoroutine = StartCoroutine(MoveCoroutine(direction));
     }
 
@@ -63,10 +78,16 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     }
     private IEnumerator MoveCoroutine(Vector3 direction)
     {
+        float randX = Random.Range(-1f, 1f);
+        float randY = Random.Range(-1f, 1f);
+        Debug.LogFormat("RandX: {0}  RandY: {1}", randX, randY);
+
         while (true)
         {
             yield return new WaitForFixedUpdate();
-            transform.Translate(direction.normalized * (_speed * Time.deltaTime));
+            
+            // transform.Translate(direction.normalized * (_speed * Time.deltaTime));
+            _moveTransform.Translate(new Vector3(randX,randY , 0) * (_speed * Time.deltaTime));
         }    
     }
 
@@ -76,7 +97,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     }
     public void DeSpawn()
     {
-        Debug.LogFormat("Despawning {0}", gameObject.name);
-        ObjectPooler.Instance.RecyclePooledObject(gameObject);
+        Debug.LogFormat("Despawning {0}", _moveTransform.gameObject.name);
+        ObjectPooler.Instance.RecyclePooledObject(_moveTransform.gameObject);
     }
 }
