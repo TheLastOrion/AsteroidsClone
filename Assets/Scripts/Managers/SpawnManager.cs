@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -53,7 +54,6 @@ public class SpawnManager : MonoBehaviour
                 break;
         }
 
-        asteroid = ObjectPooler.Instance.GetPooledObject(SmallAsteroidTypes[0]);
         AsteroidControl asteroidControl = asteroid.GetComponentInChildren<AsteroidControl>();
         asteroid.transform.position = new Vector3(
             Random.Range(
@@ -72,9 +72,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            int randomSize = Random.Range(0, 3);
-            Debug.Log("Random Size: " +  randomSize);
-            SpawnAsteroid(AsteroidSize.Small );
+            SpawnAsteroid((AsteroidSize)Random.Range(0, Enum.GetValues(typeof(AsteroidSize)).Length));
         }
     }
 }

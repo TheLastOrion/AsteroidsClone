@@ -10,6 +10,7 @@ public static class GameEvents
     public static event Action<BorderType, Collider> BorderExit;
 
     public static event Action<Collider> PlayerHitByAsteroid;
+    public static event Action<Collider> AsteroidSelfDestructed;
 
     public static void FireProjectileFired(Transform playerTransfom, float projectileSpeed)
     {
@@ -30,6 +31,10 @@ public static class GameEvents
     {
         PlayerHitByAsteroid?.Invoke(asteroidCollider);
     }
-    
+
+    public static void FireAsteroidSelfDestructed(Collider asteroidCollider)
+    {
+        AsteroidSelfDestructed?.Invoke(asteroidCollider);
+    }
     
 }

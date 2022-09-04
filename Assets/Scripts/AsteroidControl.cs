@@ -8,6 +8,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     private Transform _moveTransform;
     private Vector3 _direction;
     private Coroutine _moveCoroutine;
+    private Coroutine _selfCheckCoroutine;
     public Vector3 Direction
     {
         get => _direction;
@@ -29,6 +30,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     {
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
         GameEvents.BorderExit += GameEventsOnBorderExit;
+        _selfCheckCoroutine = StartCoroutine(SelfDestructIfTooFar());
     }
 
     
@@ -39,6 +41,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         GameEvents.BorderExit -= GameEventsOnBorderExit;
 
         if(_moveCoroutine != null)StopCoroutine(_moveCoroutine);
+        if (_selfCheckCoroutine != null) StopCoroutine(_selfCheckCoroutine);
     }
 
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
@@ -91,6 +94,18 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         }    
     }
 
+    private IEnumerator SelfDestructIfTooFar()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            if (Vector3.Distance(transform.position, Vector3.zero) >= Constants.SELF_DESTRUCT_DISTANCE)
+            {
+                GameEvents.FireAsteroidSelfDestructed(_collider);
+                DeSpawn();
+            }
+        }
+    }
     public AsteroidSize GetAsteroidSize()
     {
         return _asteroidSize;
@@ -100,4 +115,5 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         Debug.LogFormat("Despawning {0}", _moveTransform.gameObject.name);
         ObjectPooler.Instance.RecyclePooledObject(_moveTransform.gameObject);
     }
+    
 }
