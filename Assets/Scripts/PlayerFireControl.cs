@@ -30,7 +30,7 @@ public class PlayerFireControl : MonoBehaviour
     {
         if (!_canShoot)
             return;
-        GameEvents.FireProjectileFired(transform.position, transform.rotation.eulerAngles, _projectileSpeed );
+        GameEvents.FireProjectileFired(transform, _projectileSpeed );
         _canShoot = false;
         StartCoroutine(ShootWaitCoroutine());
     }

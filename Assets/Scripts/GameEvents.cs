@@ -5,26 +5,23 @@ using UnityEngine;
 
 public static class GameEvents
 {
-    public static event Action<Vector3, Vector3, float> ProjectileFired;
+    public static event Action<Transform, float> ProjectileFired;
     public static event Action<Collider, Collider> AsteroidHitByProjectile;
     public static event Action<BorderType, Collider> BorderExit;
 
-    public static void FireProjectileFired(Vector3 playerPosition, Vector3 playerDirection, float projectileSpeed)
+    public static void FireProjectileFired(Transform playerTransfom, float projectileSpeed)
     {
-        if (ProjectileFired != null)
-            ProjectileFired(playerPosition, playerDirection, projectileSpeed);
+        ProjectileFired?.Invoke(playerTransfom, projectileSpeed);
     }
     
     public static void FireAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
     {
-        if (AsteroidHitByProjectile != null)
-            AsteroidHitByProjectile(projectileCollider, asteroidCollider);
+        AsteroidHitByProjectile?.Invoke(projectileCollider, asteroidCollider);
     }
 
     public static void FireBorderExit(BorderType borderType, Collider collider)
     {
-        if (BorderExit != null)
-            BorderExit(borderType, collider);
+        BorderExit?.Invoke(borderType, collider);
     }
     
     

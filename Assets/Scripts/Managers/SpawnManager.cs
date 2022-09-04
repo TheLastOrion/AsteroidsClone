@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
-    public static GameController Instance;
+    public static SpawnManager Instance;
+    
     [SerializeField] private GameObject Projectile;
-    public GameObject Fighter;
+
     void Awake()
     {
         if (Instance == null)
@@ -15,30 +16,15 @@ public class GameController : MonoBehaviour
         }
         GameEvents.ProjectileFired += GameEventsOnProjectileFired;
     }
-
-    private void GameEventsOnProjectileFired(Vector3 playerPosition, Vector3 playerDirection, float projectileSpeed)
+    private void GameEventsOnProjectileFired(Transform playerTransform, float projectileSpeed)
     {
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(Projectile);
         ProjectileControl projectileControl = projectile.GetComponent<ProjectileControl>();
-        projectile.transform.position = playerPosition;
+        projectile.transform.position = playerTransform.position;
         projectile.SetActive(true);
+        projectileControl.SetMovement(playerTransform.up);
         // projectileControl.SetMovement();
         
     }
-
-    void SpawnProjectile()
-    {
-        
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

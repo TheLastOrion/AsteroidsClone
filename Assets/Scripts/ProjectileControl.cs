@@ -6,13 +6,14 @@ using UnityEngine;
 public class ProjectileControl : MonoBehaviour, IPoolable
 {
     [Range(5f,15f)][SerializeField]private float _speed;
+    [SerializeField] private float _timer;
+
     private Vector3 _direction;
     private Coroutine _despawnCoroutine;
     private Coroutine _moveCoroutine;
     private Collider _collider;
     private Rigidbody _rigidbody;
-    [SerializeField] private float _timer;
-    
+
     private void Start()
     {
         if (_collider == null)
@@ -24,13 +25,11 @@ public class ProjectileControl : MonoBehaviour, IPoolable
     {
         GameEvents.BorderExit += GameEventsOnBorderExit;
         _despawnCoroutine = StartCoroutine("StartTimerCountdownCoroutine");
-        _moveCoroutine = StartCoroutine(MoveCoroutine(GameController.Instance.Fighter.transform.up));
     }
 
     public void SetMovement(Vector3 direction)
     {
-        // _rigidbody.AddRelativeForce(direction.normalized * _speed);
-        
+        _moveCoroutine = StartCoroutine(MoveCoroutine(direction));
     }
     private void OnDisable()
     {        
