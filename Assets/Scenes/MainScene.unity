@@ -456,6 +456,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletObject: {fileID: 7134420985854115334, guid: a746138744c24fc4ba101013bd8aa462,
     type: 3}
+  _periodBetweenTwoShots: 0.5
+  _projectileSpeed: 1
 --- !u!1 &1156458030 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2115535585284402861, guid: d7366ed2055055c4484d7ba7dd191aa8,
@@ -1004,6 +1006,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1869372335}
+  - component: {fileID: 1869372336}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1025,6 +1028,21 @@ Transform:
   m_Father: {fileID: 1279737044}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1869372336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869372334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2539d0cf22db34c8dd4f422bee447d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Projectile: {fileID: 7134420985854115334, guid: a746138744c24fc4ba101013bd8aa462,
+    type: 3}
+  Fighter: {fileID: 935680256}
 --- !u!1 &2091438604
 GameObject:
   m_ObjectHideFlags: 0

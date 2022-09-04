@@ -7,6 +7,7 @@ public class PlayerMoveControl : MonoBehaviour
     private Collider m_collider;
     [SerializeField] [Range(5f, 15f)] private float m_accelerationFactor = 10f;
     [SerializeField] [Range(5f, 15f)] private float m_turnSpeed = 5f;
+    
     public void Start()
     {
         GameEvents.BorderExit += GameEventsOnBorderExit;

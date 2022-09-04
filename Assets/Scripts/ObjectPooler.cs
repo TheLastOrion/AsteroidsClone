@@ -10,7 +10,7 @@ public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler Instance;
 
-    //TODO Create a cleaner pool.
+    //TODO Create a cleaner pool, maybe assign a factory as well to handle non-pool instantiations
     [Tooltip(
         "When creating a poolable object, make sure to add a new enum type in Poolables and attach a PooledObjectType script to the object with proper type set")]
     [SerializeField]

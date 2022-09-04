@@ -5,14 +5,14 @@ using UnityEngine;
 
 public static class GameEvents
 {
-    public static event Action ProjectileFired;
+    public static event Action<Vector3, Vector3, float> ProjectileFired;
     public static event Action<Collider, Collider> AsteroidHitByProjectile;
     public static event Action<BorderType, Collider> BorderExit;
 
-    public static void FireProjectileFired()
+    public static void FireProjectileFired(Vector3 playerPosition, Vector3 playerDirection, float projectileSpeed)
     {
         if (ProjectileFired != null)
-            ProjectileFired();
+            ProjectileFired(playerPosition, playerDirection, projectileSpeed);
     }
     
     public static void FireAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
