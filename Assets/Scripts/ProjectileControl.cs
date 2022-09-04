@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileMoveControl : MonoBehaviour
+public class ProjectileControl : MonoBehaviour, IPoolable
 {
     private int m_speed;
     private Vector3 m_direction;
@@ -18,6 +18,10 @@ public class ProjectileMoveControl : MonoBehaviour
     {
         GameEvents.BorderExit +=GameEventsOnBorderExit;
     }
+    private void OnDisable()
+    {        
+        GameEvents.BorderExit -=GameEventsOnBorderExit;
+    }
 
     private void GameEventsOnBorderExit(BorderType borderType, Collider teleportCollider)
     {
@@ -26,18 +30,20 @@ public class ProjectileMoveControl : MonoBehaviour
             transform.position = CalculationUtils.FindTeleportPlace(transform, borderType);
         }    
     }
-
-    private void OnDisable()
-    {        
-        GameEvents.BorderExit -=GameEventsOnBorderExit;
-    }
-
     private void OnTriggerEnter(Collider otherCollider)
     {
         if (otherCollider.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Enemy Hit!");
-            GameEvents.FireAsteroidHitByProjectile();
+            GameEvents.FireAsteroidHitByProjectile(m_collider, otherCollider);
+            DeSpawn();
+
         }
+    }
+
+    public void DeSpawn()
+    {
+        Debug.LogFormat("Despawning {0}", gameObject.name);
+        ObjectPooler.Instance.RecyclePooledObject(gameObject);
     }
 }

@@ -15,10 +15,10 @@ public static class GameEvents
             ProjectileFired();
     }
     
-    public static void FireAsteroidHitByProjectile()
+    public static void FireAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
     {
-        if (ProjectileFired != null)
-            ProjectileFired();
+        if (AsteroidHitByProjectile != null)
+            FireAsteroidHitByProjectile(projectileCollider, asteroidCollider);
     }
 
     public static void FireBorderExit(BorderType borderType, Collider collider)

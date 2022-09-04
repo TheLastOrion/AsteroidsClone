@@ -3,12 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PooledObject : MonoBehaviour, IPoolable
+public class PooledObject : MonoBehaviour
 {
     public PoolableType PoolableType;
-    public void DeSpawn()
-    {
-        ObjectPooler.Instance.GetPooledObject(this.gameObject);
-    }
-    
 }

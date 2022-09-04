@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -27,27 +26,28 @@ public class ObjectPooler : MonoBehaviour
 
     private void Start()
     {
+        // Prewarm Object Pool with objects
         foreach (var poolableObject in PoolableObjects)
         {
             List<GameObject> objectList = poolableObject.GetList();
             if (objectList == null)
                 objectList = new List<GameObject>();
-            GameObject containerObject = new GameObject(poolableObject.getPoolableType().ToString() + "Container");
+            GameObject containerObject = new GameObject(poolableObject.GetPoolableType().ToString() + "Container");
             poolableObject.SetParentTransform(containerObject.transform);
             containerObject.transform.position = Vector3.zero;
             containerObject.transform.parent = this.transform;
-            if (poolableObject.getGameObject().GetComponent<PooledObject>() == null)
+            if (poolableObject.GetGameObject().GetComponent<PooledObject>() == null)
             {
                 Debug.LogErrorFormat("The object {0} seems not to be set as poolable, " +
                                      "not instantiating!\nPlease attach a PooledObjectType and set it properly beforehand!"
-                    , poolableObject.getGameObject().name);
+                    , poolableObject.GetGameObject().name);
                 continue;
             }
             
-            for (int i = 0; i < poolableObject.getAmount(); i++)
+            for (int i = 0; i < poolableObject.GetAmount(); i++)
             {
                 
-                GameObject objectToBeCreated = Instantiate(poolableObject.getGameObject(), Vector3.zero,
+                GameObject objectToBeCreated = Instantiate(poolableObject.GetGameObject(), Vector3.zero,
                     Quaternion.identity, containerObject.transform);
                 objectToBeCreated.SetActive(false);
                 objectList.Add(objectToBeCreated);
@@ -67,7 +67,7 @@ public class ObjectPooler : MonoBehaviour
         foreach (var poolableObject in PoolableObjects)
         {
 
-            if (poolableObject.getPoolableType() == type)
+            if (poolableObject.GetPoolableType() == type)
             {
                 go = Instantiate(go, poolableObject.GetParentTransform());
                 go.transform.parent = poolableObject.GetParentTransform();
@@ -95,7 +95,7 @@ public class ObjectPooler : MonoBehaviour
         PoolableType type = go.GetComponent<PooledObject>().PoolableType;
         foreach (var poolableObject in PoolableObjects)
         {
-            if (poolableObject.getPoolableType() == type)
+            if (poolableObject.GetPoolableType() == type)
             {
                 foreach (var returnObject in poolableObject.GetList())
                 {
@@ -109,6 +109,29 @@ public class ObjectPooler : MonoBehaviour
         Debug.LogErrorFormat("Object is not set to be poolable, returning null");
 
         return null;
+    }
+
+    public void RecyclePooledObject(GameObject recycledObject)
+    {
+        if (recycledObject.GetComponent<PooledObject>() == null)
+        {
+            Debug.LogErrorFormat("Object is not set to be poolable, skipping recycle");
+            return;
+        }
+
+        PoolableType type = recycledObject.GetComponent<PooledObject>().PoolableType;
+        foreach (var poolableObject in PoolableObjects)
+        {
+            if (poolableObject.GetPoolableType() == type)
+            {
+                Debug.LogFormat("Recycling Object {0}", recycledObject.name);
+                recycledObject.SetActive(false);
+                recycledObject.transform.SetParent(poolableObject.GetParentTransform());
+                recycledObject.transform.position = Vector3.zero;
+            }
+        }
+        
+        
     }
 
 
@@ -129,12 +152,12 @@ public class ObjectPool
         m_poolableType = poolableType;
     }
 
-    public GameObject getGameObject()
+    public GameObject GetGameObject()
     {
         return m_pooledObject;
     }
 
-    public PoolableType getPoolableType()
+    public PoolableType GetPoolableType()
     {
         return m_poolableType;
     }
@@ -149,7 +172,7 @@ public class ObjectPool
         return m_containerTransform;
     }
 
-    public int getAmount()
+    public int GetAmount()
     {
         return m_amountPreCreated;
     }
