@@ -22,9 +22,8 @@ public class ProjectileControl : MonoBehaviour, IPoolable
     }
     private void OnEnable()
     {
-        GameEvents.BorderExit +=GameEventsOnBorderExit;
+        GameEvents.BorderExit += GameEventsOnBorderExit;
         _despawnCoroutine = StartCoroutine("StartTimerCountdownCoroutine");
-        Debug.Log("Move? : " + GameController.Instance.Fighter.transform.forward);
         _moveCoroutine = StartCoroutine(MoveCoroutine(GameController.Instance.Fighter.transform.up));
     }
 
