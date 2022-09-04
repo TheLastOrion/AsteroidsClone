@@ -23,7 +23,6 @@ public class SpawnManager : MonoBehaviour
         projectile.transform.position = playerTransform.position;
         projectile.SetActive(true);
         projectileControl.SetMovement(playerTransform.up);
-        // projectileControl.SetMovement();
         
     }
     

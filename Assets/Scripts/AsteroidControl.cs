@@ -2,26 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AsteroidControl : MonoBehaviour, IPoolable
 {
     [SerializeField] private float m_speed;
 
-    private Vector3 m_direction;
+    private Vector3 _direction;
 
     public Vector3 Direction
     {
-        get => m_direction;
-        set => m_direction = value;
+        get => _direction;
+        set => _direction = value;
     }
 
-    private Collider m_collider;
-    [SerializeField] private AsteroidSize m_asteroidSize;
+    private Collider _collider;
+    [SerializeField] private AsteroidSize _asteroidSize;
     void Start()
     {
-        if (m_collider == null)
+        if (_collider == null)
         {
-            m_collider = GetComponent<Collider>();
+            _collider = GetComponent<Collider>();
         }
     }
     // Start is called before the first frame update
@@ -37,8 +38,18 @@ public class AsteroidControl : MonoBehaviour, IPoolable
 
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
     {
-        if (asteroidCollider == m_collider)
+        if (asteroidCollider == _collider)
         {
+            DeSpawn();
+        }
+    }
+    
+    private void OnTriggerEnter(Collider otherCollider)
+    {
+        if (otherCollider.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player Hit!");
+            GameEvents.FirePlayerHitByAsteroid(_collider);
             DeSpawn();
         }
     }
@@ -51,7 +62,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable
 
     public AsteroidSize GetAsteroidSize()
     {
-        return m_asteroidSize;
+        return _asteroidSize;
     }
 
     

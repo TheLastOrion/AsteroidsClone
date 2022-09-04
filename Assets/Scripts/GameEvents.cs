@@ -9,6 +9,8 @@ public static class GameEvents
     public static event Action<Collider, Collider> AsteroidHitByProjectile;
     public static event Action<BorderType, Collider> BorderExit;
 
+    public static event Action<Collider> PlayerHitByAsteroid;
+
     public static void FireProjectileFired(Transform playerTransfom, float projectileSpeed)
     {
         ProjectileFired?.Invoke(playerTransfom, projectileSpeed);
@@ -22,6 +24,11 @@ public static class GameEvents
     public static void FireBorderExit(BorderType borderType, Collider collider)
     {
         BorderExit?.Invoke(borderType, collider);
+    }
+
+    public static void FirePlayerHitByAsteroid(Collider asteroidCollider)
+    {
+        PlayerHitByAsteroid?.Invoke(asteroidCollider);
     }
     
     
