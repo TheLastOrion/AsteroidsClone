@@ -108,7 +108,6 @@ public class ObjectPooler : MonoBehaviour
                         return returnObject;
                 }
                 return AddGameObjectToPool(go);
-                return go;
             }
         }
         Debug.LogErrorFormat("Object is not set to be poolable, returning null");

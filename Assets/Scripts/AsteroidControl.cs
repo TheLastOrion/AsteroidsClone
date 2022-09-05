@@ -5,16 +5,10 @@ using UnityEngine.Serialization;
 public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
 {
     [FormerlySerializedAs("m_speed")] [SerializeField] private float _speed;
+    
     private Transform _moveTransform;
-    private Vector3 _direction;
     private Coroutine _moveCoroutine;
     private Coroutine _selfCheckCoroutine;
-    public Vector3 Direction
-    {
-        get => _direction;
-        set => _direction = value;
-    }
-
     private Collider _collider;
     [SerializeField] private AsteroidSize _asteroidSize;
     void Start()
@@ -25,16 +19,12 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
             _collider = GetComponent<Collider>();
         }
     }
-    // Start is called before the first frame update
     void OnEnable()
     {
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
         GameEvents.BorderExit += GameEventsOnBorderExit;
         _selfCheckCoroutine = StartCoroutine(SelfDestructIfTooFar());
     }
-
-    
-
     private void OnDisable()
     {
         GameEvents.AsteroidHitByProjectile -= GameEventsOnAsteroidHitByProjectile;
@@ -88,8 +78,6 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         while (true)
         {
             yield return new WaitForFixedUpdate();
-            
-            // transform.Translate(direction.normalized * (_speed * Time.deltaTime));
             _moveTransform.Translate(new Vector3(randX,randY , 0) * (_speed * Time.deltaTime));
         }    
     }
@@ -110,6 +98,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     {
         return _asteroidSize;
     }
+    
     public void DeSpawn()
     {
         Debug.LogFormat("Despawning {0}", _moveTransform.gameObject.name);

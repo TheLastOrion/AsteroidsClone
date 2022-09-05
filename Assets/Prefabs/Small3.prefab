@@ -57,6 +57,11 @@ PrefabInstance:
       propertyPath: _speed
       value: 1.1144602
       objectReference: {fileID: 0}
+    - target: {fileID: 593274480092380705, guid: 80955cf887918d54eb4a05bed3225fb2,
+        type: 3}
+      propertyPath: _asteroidSize
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8554028915245687926, guid: 80955cf887918d54eb4a05bed3225fb2,
         type: 3}
       propertyPath: m_RootOrder

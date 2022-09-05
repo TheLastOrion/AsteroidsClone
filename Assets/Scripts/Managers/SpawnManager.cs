@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private List<GameObject> SmallAsteroidTypes = new List<GameObject>();
     [SerializeField] private List<GameObject> MediumAsteroidTypes = new List<GameObject>();
     [SerializeField] private List<GameObject> LargeAsteroidTypes = new List<GameObject>();
+    [SerializeField] private int MinNumberOfAsteroidChunks;
+    [SerializeField] private int MaxNumberOfAsteroidChunks;
     [SerializeField] private GameObject Projectile;
 
     void Awake()
@@ -18,7 +20,43 @@ public class SpawnManager : MonoBehaviour
             Instance = this;
         }
         GameEvents.ProjectileFired += GameEventsOnProjectileFired;
+        GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
     }
+
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
+    {
+        AsteroidControl destroyedAsteroidControl = asteroidCollider.gameObject.GetComponent<AsteroidControl>();
+        
+        if (destroyedAsteroidControl.GetAsteroidSize() == AsteroidSize.Large)
+        {
+
+            int amount = Random.Range(MinNumberOfAsteroidChunks, MaxNumberOfAsteroidChunks + 1);
+            Debug.LogFormat("{0} size asteroid destroyed, spawning {1} mid asteroids",destroyedAsteroidControl.GetAsteroidSize(), amount);
+
+            for (int i = 0; i < amount; i++)
+            {
+                SpawnAsteroid(AsteroidSize.Medium, asteroidCollider.gameObject.transform.position);
+            }
+        }
+        else if (destroyedAsteroidControl.GetAsteroidSize() == AsteroidSize.Medium)
+        {
+            int amount = Random.Range(MinNumberOfAsteroidChunks, MaxNumberOfAsteroidChunks + 1);
+            Debug.LogFormat("{0} size asteroid destroyed, spawning {1} small asteroids",destroyedAsteroidControl.GetAsteroidSize(), amount);
+            for (int i = 0; i < amount; i++)
+            {
+                SpawnAsteroid(AsteroidSize.Small, asteroidCollider.gameObject.transform.position);
+            }
+        }
+        // if (destroyedAsteroidControl.GetAsteroidSize() != AsteroidSize.Small)
+        // {
+        //     int amount = Random.Range(MinNumberOfAsteroidChunks, MaxNumberOfAsteroidChunks + 1);
+        //     for (int i = 0; i < amount; i++)
+        //     {
+        //         SpawnAsteroid(destroyedAsteroidControl.GetAsteroidSize() - 1, asteroidCollider.gameObject.transform.position);
+        //     }
+        // }
+    }
+
     private void GameEventsOnProjectileFired(Transform playerTransform, float projectileSpeed)
     {
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(Projectile);
@@ -30,7 +68,7 @@ public class SpawnManager : MonoBehaviour
         
     }
 
-    private void SpawnAsteroid(AsteroidSize size)
+    private void SpawnAsteroid(AsteroidSize size, Vector3? position)
     {
         int index;
         GameObject asteroid = null;
@@ -55,13 +93,21 @@ public class SpawnManager : MonoBehaviour
         }
 
         AsteroidControl asteroidControl = asteroid.GetComponentInChildren<AsteroidControl>();
-        asteroid.transform.position = new Vector3(
-            Random.Range(
-                Constants.SPAWN_MIN_COORD_X, 
-                Constants.SPAWN_MAX_COORD_X), 
-            Random.Range(
-                Constants.SPAWN_MIN_COORD_Y, 
-                Constants.SPAWN_MAX_COORD_Y));
+        if (position != null)
+        {
+            asteroid.transform.position = (Vector3)position;
+        }
+        else
+        {
+            asteroid.transform.position = new Vector3(
+                Random.Range(
+                    Constants.SPAWN_MIN_COORD_X, 
+                    Constants.SPAWN_MAX_COORD_X), 
+                Random.Range(
+                    Constants.SPAWN_MIN_COORD_Y, 
+                    Constants.SPAWN_MAX_COORD_Y));
+        }
+        
         asteroid.transform.SetParent(transform);
         asteroidControl.SetRandomSpeed();
         asteroid.SetActive(true);
@@ -72,7 +118,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            SpawnAsteroid((AsteroidSize)Random.Range(0, Enum.GetValues(typeof(AsteroidSize)).Length));
+            SpawnAsteroid((AsteroidSize)Random.Range(0, Enum.GetValues(typeof(AsteroidSize)).Length), null);
         }
     }
 }

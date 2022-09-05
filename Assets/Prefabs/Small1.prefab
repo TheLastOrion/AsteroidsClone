@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1.7707527
-  _asteroidSize: 2
+  _asteroidSize: 0
 --- !u!1 &8114700456311215912
 GameObject:
   m_ObjectHideFlags: 0

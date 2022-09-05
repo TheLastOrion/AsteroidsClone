@@ -52,6 +52,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8990699834977025009}
     m_Modifications:
+    - target: {fileID: -2029333002801929992, guid: d7366ed2055055c4484d7ba7dd191aa8,
+        type: 3}
+      propertyPath: _asteroidSize
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2115535585284402861, guid: d7366ed2055055c4484d7ba7dd191aa8,
         type: 3}
       propertyPath: m_Name
