@@ -521,6 +521,8 @@ MonoBehaviour:
   - {fileID: 2903498637767913667, guid: c1a179dc6187c0c488089aee251b9ea3, type: 3}
   - {fileID: 7111548505774788116, guid: 16d1e21da069e984bbebabcce034cfd5, type: 3}
   - {fileID: 6121217040273163908, guid: b0bf99580993fe349976416a3a547632, type: 3}
+  MinNumberOfAsteroidChunks: 2
+  MaxNumberOfAsteroidChunks: 3
   Projectile: {fileID: 7134420985854115334, guid: a746138744c24fc4ba101013bd8aa462,
     type: 3}
 --- !u!1 &761295587
