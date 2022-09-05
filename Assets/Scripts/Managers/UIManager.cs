@@ -12,5 +12,11 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+        GameEvents.ScoreChanged += GameEventsOnScoreChanged; 
+    }
+
+    private void GameEventsOnScoreChanged(int newScore)
+    {
+        ScoreText.text = "Score: " + newScore;
     }
 }

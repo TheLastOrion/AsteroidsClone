@@ -25,6 +25,14 @@ public class PlayerMoveControl : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider otherCollider)
+    {
+        if (otherCollider.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player Hit!");
+            GameEvents.FirePlayerHitByAsteroid(otherCollider);
+        }
+    }
     public void Update()
     {
         if (Input.GetKey(KeyCode.W)) 

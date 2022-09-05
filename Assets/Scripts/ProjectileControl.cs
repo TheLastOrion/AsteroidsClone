@@ -59,16 +59,6 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
         }    
     }
     
-    private void OnTriggerEnter(Collider otherCollider)
-    {
-        // if (otherCollider.gameObject.CompareTag("Enemy"))
-        // {
-        //     Debug.Log("Enemy Hit!");
-        //     GameEvents.FireAsteroidHitByProjectile(_collider, otherCollider);
-        //     DeSpawn();
-        // }
-        
-    }
 
     private IEnumerator StartTimerCountdownCoroutine()
     {

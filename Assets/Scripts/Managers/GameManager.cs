@@ -18,18 +18,30 @@ public class GameManager : MonoBehaviour
         }
         
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
-        
+        // GameEvents.FirePlayerHitByAsteroid();
     }
 
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidSize size)
     {
-        // _score += asteroidCollider.gameObject.GetComponent<>;
-        // GameEvents.FireScoreChanged(_score);
-        // if (_score > _highScore)
-        // {
-        //     _highScore += 
-        //     GameEvents.FireHighScoreChanged(_highScore);
-        //     
-        // }
+        //TODO remove this switch case and introduce Automatic enum dictionary calculations on inspector (probably will require serializable dictionary
+        switch (size)
+        {
+            case AsteroidSize.Small:
+                _score += SmallAsteroidScore;
+                break;
+            case AsteroidSize.Medium:
+                _score += MediumAsteroidScore;
+                break;
+            case AsteroidSize.Large:
+                _score += LargeAsteroidScore;
+                break;
+        }
+        GameEvents.FireScoreChanged(_score);
+        if (_score > _highScore)
+        {
+            _highScore += _score;
+            GameEvents.FireHighScoreChanged(_highScore);
+            
+        }
     }
 }
