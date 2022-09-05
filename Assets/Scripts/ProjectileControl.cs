@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
@@ -24,7 +25,16 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
     private void OnEnable()
     {
         GameEvents.BorderExit += GameEventsOnBorderExit;
+        GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
         _despawnCoroutine = StartCoroutine("StartTimerCountdownCoroutine");
+    }
+
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidSize arg3)
+    {
+        if (projectileCollider == _collider)
+        {
+            DeSpawn();
+        }
     }
 
     public void SetMovement(Vector3 direction)
@@ -48,14 +58,16 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
             transform.position = GameUtils.FindTeleportPlace(transform, borderType);
         }    
     }
+    
     private void OnTriggerEnter(Collider otherCollider)
     {
-        if (otherCollider.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("Enemy Hit!");
-            GameEvents.FireAsteroidHitByProjectile(_collider, otherCollider);
-            DeSpawn();
-        }
+        // if (otherCollider.gameObject.CompareTag("Enemy"))
+        // {
+        //     Debug.Log("Enemy Hit!");
+        //     GameEvents.FireAsteroidHitByProjectile(_collider, otherCollider);
+        //     DeSpawn();
+        // }
+        
     }
 
     private IEnumerator StartTimerCountdownCoroutine()

@@ -23,25 +23,25 @@ public class SpawnManager : MonoBehaviour
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
     }
 
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidSize size)
     {
-        AsteroidControl destroyedAsteroidControl = asteroidCollider.gameObject.GetComponent<AsteroidControl>();
+        // AsteroidControl destroyedAsteroidControl = asteroidCollider.gameObject.GetComponent<AsteroidControl>();
         
-        if (destroyedAsteroidControl.GetAsteroidSize() == AsteroidSize.Large)
+        if (size == AsteroidSize.Large)
         {
 
             int amount = Random.Range(MinNumberOfAsteroidChunks, MaxNumberOfAsteroidChunks + 1);
-            Debug.LogFormat("{0} size asteroid destroyed, spawning {1} mid asteroids",destroyedAsteroidControl.GetAsteroidSize(), amount);
+            Debug.LogFormat("{0} size asteroid destroyed, spawning {1} mid asteroids",size, amount);
 
             for (int i = 0; i < amount; i++)
             {
                 SpawnAsteroid(AsteroidSize.Medium, asteroidCollider.gameObject.transform.position);
             }
         }
-        else if (destroyedAsteroidControl.GetAsteroidSize() == AsteroidSize.Medium)
+        else if (size == AsteroidSize.Medium)
         {
             int amount = Random.Range(MinNumberOfAsteroidChunks, MaxNumberOfAsteroidChunks + 1);
-            Debug.LogFormat("{0} size asteroid destroyed, spawning {1} small asteroids",destroyedAsteroidControl.GetAsteroidSize(), amount);
+            Debug.LogFormat("{0} size asteroid destroyed, spawning {1} small asteroids",size, amount);
             for (int i = 0; i < amount; i++)
             {
                 SpawnAsteroid(AsteroidSize.Small, asteroidCollider.gameObject.transform.position);

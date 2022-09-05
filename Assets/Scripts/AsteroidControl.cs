@@ -21,26 +21,17 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     }
     void OnEnable()
     {
-        GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
         GameEvents.BorderExit += GameEventsOnBorderExit;
         _selfCheckCoroutine = StartCoroutine(SelfDestructIfTooFar());
     }
     private void OnDisable()
     {
-        GameEvents.AsteroidHitByProjectile -= GameEventsOnAsteroidHitByProjectile;
         GameEvents.BorderExit -= GameEventsOnBorderExit;
 
         if(_moveCoroutine != null)StopCoroutine(_moveCoroutine);
         if (_selfCheckCoroutine != null) StopCoroutine(_selfCheckCoroutine);
     }
 
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider)
-    {
-        if (asteroidCollider == _collider)
-        {
-            DeSpawn();
-        }
-    }
     private void GameEventsOnBorderExit(BorderType borderType, Collider teleportCollider)
     {
         if (teleportCollider == _collider)
@@ -55,6 +46,12 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         {
             Debug.Log("Player Hit!");
             GameEvents.FirePlayerHitByAsteroid(_collider);
+            DeSpawn();
+        }
+
+        if (otherCollider.gameObject.CompareTag("Projectile"))
+        {
+            GameEvents.FireAsteroidHitByProjectile(otherCollider, _collider, _asteroidSize); 
             DeSpawn();
         }
     }
