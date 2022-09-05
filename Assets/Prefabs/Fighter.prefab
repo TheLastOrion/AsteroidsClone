@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 6371171099993599815}
   - component: {fileID: 6371171099993599808}
   - component: {fileID: 6371171099993599809}
+  - component: {fileID: 935680257}
+  - component: {fileID: 935680258}
   m_Layer: 0
   m_Name: Fighter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,8 +77,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0b825d7da7dec42bb64948b57adad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_accelerationFactor: 10
-  m_turnSpeed: 5
+  _accelerationFactor: 10
+  _turnSpeed: 5
+--- !u!114 &935680257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6371171099993599811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e1ace6d855731b49ad33aad95fe1bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _periodBetweenTwoShots: 0.5
+  _projectileSpeed: 1
+--- !u!114 &935680258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6371171099993599811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9bdbb3283185714599de8e4fbd4869f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5270167516374604572
 PrefabInstance:
   m_ObjectHideFlags: 0
