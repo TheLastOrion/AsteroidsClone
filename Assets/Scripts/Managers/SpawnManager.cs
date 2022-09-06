@@ -36,9 +36,13 @@ public class SpawnManager : MonoBehaviour
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
     }
 
+    private void Start()
+    {
+        GameEvents.FireGameStarted();
+    }
     private void GameEventsOnAsteroidSelfDestructed(Collider asteroidCollider, AsteroidControl asteroicControl)
     {
-        
+        // CurrentAsteroids.Remove(asteroicControl.GetInstanceID());
     }
 
 
@@ -76,7 +80,7 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        CurrentAsteroids.Remove(asteroidCollider.GetInstanceID());
+        // CurrentAsteroids.Remove(asteroidControl.GetInstanceID());
 
     }
 
@@ -107,7 +111,7 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnAsteroid()
     {
-        SpawnAsteroid((AsteroidSize)(Random.Range(1, Enum.GetValues(typeof(AsteroidSize)).Length)));
+        SpawnAsteroid((AsteroidSize)(Random.Range(0, Enum.GetValues(typeof(AsteroidSize)).Length)));
     }
 
     private void SpawnAsteroid(AsteroidSize size)
@@ -159,14 +163,16 @@ public class SpawnManager : MonoBehaviour
         asteroidControl.SetRandomSpeed();
         asteroid.SetActive(true);
         asteroidControl.SetMovement(GameUtils.GetRandomizeDirectionVector());
-        CurrentAsteroids.Add(asteroid.GetInstanceID(), asteroidControl);
+        // CurrentAsteroids.Add(asteroidControl.GetInstanceID(), asteroidControl);
     }
-
+    
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             SpawnAsteroid((AsteroidSize)Random.Range(0, Enum.GetValues(typeof(AsteroidSize)).Length), null);
         }
+
+        
     }
 }

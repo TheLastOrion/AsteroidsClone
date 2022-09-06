@@ -16,8 +16,30 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
+        GameEvents.GameOver += GameEventsOnGameOver;
     }
 
+    
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            GameEvents.FireGameOver();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Insert))
+        {
+            GameEvents.FireGameStarted();
+        }
+    }
+    
+    private void GameEventsOnGameOver()
+    {
+        _score = 0;
+        GameEvents.FireScoreChanged(_score);
+    }
+    
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
     {
         //TODO remove this switch case and introduce Automatic enum dictionary calculations on inspector (probably will require serializable dictionary

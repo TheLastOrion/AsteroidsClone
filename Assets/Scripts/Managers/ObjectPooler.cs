@@ -134,8 +134,6 @@ public class ObjectPooler : MonoBehaviour
                 recycledObject.transform.position = Vector3.zero;
             }
         }
-        
-        
     }
 
 

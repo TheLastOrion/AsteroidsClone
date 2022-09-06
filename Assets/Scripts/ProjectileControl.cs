@@ -23,7 +23,23 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
     {
         GameEvents.BorderExit += GameEventsOnBorderExit;
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
+        GameEvents.GameOver += GameEventsOnGameOver;
         _despawnCoroutine = StartCoroutine("StartTimerCountdownCoroutine");
+    }
+    private void OnDisable()
+    {        
+        Debug.Log("Desubscribing from OnBorderExit Event!");
+        GameEvents.BorderExit -=GameEventsOnBorderExit;
+        GameEvents.AsteroidHitByProjectile -= GameEventsOnAsteroidHitByProjectile;
+        GameEvents.GameOver -= GameEventsOnGameOver;
+        if(_despawnCoroutine != null)
+            StopCoroutine(_despawnCoroutine);
+        if(_moveCoroutine != null)
+            StopCoroutine(_moveCoroutine);
+    }
+    private void GameEventsOnGameOver()
+    {
+        DeSpawn();
     }
 
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
@@ -38,15 +54,7 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
     {
         _moveCoroutine = StartCoroutine(MoveCoroutine(direction));
     }
-    private void OnDisable()
-    {        
-        Debug.Log("Desubscribing from OnBorderExit Event!");
-        GameEvents.BorderExit -=GameEventsOnBorderExit;
-        if(_despawnCoroutine != null)
-            StopCoroutine(_despawnCoroutine);
-        if(_moveCoroutine != null)
-            StopCoroutine(_moveCoroutine);
-    }
+    
 
     private void GameEventsOnBorderExit(BorderType borderType, Collider teleportCollider)
     {

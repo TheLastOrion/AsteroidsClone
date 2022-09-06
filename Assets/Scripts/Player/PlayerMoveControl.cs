@@ -16,6 +16,7 @@ public class PlayerMoveControl : MonoBehaviour
         _collider = GetComponent<Collider>();
     }
 
+
     private void GameEventsOnBorderExit(BorderType borderType, Collider teleportCollider)
     {
         if (teleportCollider == _collider)
