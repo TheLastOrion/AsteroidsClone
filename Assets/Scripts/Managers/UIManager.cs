@@ -17,8 +17,16 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
         GameEvents.ScoreChanged += GameEventsOnScoreChanged; 
+        GameEvents.GameOver += GameEventsOnGameOver;
         UIEvents.HighScoresButtonPressed += UIEventsOnHighScoresButtonPressed;
         UIEvents.PlayGameButtonPressed += UIEventsOnPlayGameButtonPressed;
+    }
+
+    private void GameEventsOnGameOver()
+    {
+        GamePanel.SetActive(false);
+        HighScorePanel.SetActive(false);
+        SelectPanel.SetActive(true);
     }
 
     private void UIEventsOnPlayGameButtonPressed()
@@ -31,6 +39,7 @@ public class UIManager : MonoBehaviour
             SceneManager.LoadScene("MainScene", LoadSceneMode.Additive);
             Debug.LogFormat("Loading Scene additively");
         }
+        GameEvents.FireGameStarted();
     }
 
     private void UIEventsOnHighScoresButtonPressed()
