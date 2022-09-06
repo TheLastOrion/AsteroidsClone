@@ -16,10 +16,14 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
+        GameEvents.GameStarted += GameEventsOnGameStarted;
         GameEvents.GameOver += GameEventsOnGameOver;
     }
 
-    
+    private void GameEventsOnGameStarted()
+    {
+    }
+
 
     void Update()
     {
