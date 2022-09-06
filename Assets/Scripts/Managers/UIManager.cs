@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 public class UIManager : MonoBehaviour
 {
@@ -25,7 +26,11 @@ public class UIManager : MonoBehaviour
         GamePanel.SetActive(true);
         HighScorePanel.SetActive(false);
         SelectPanel.SetActive(false);
-        SceneManager.LoadScene("MainScene", LoadSceneMode.Additive);
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("MainScene"))
+        {
+            SceneManager.LoadScene("MainScene", LoadSceneMode.Additive);
+            Debug.LogFormat("Loading Scene additively");
+        }
     }
 
     private void UIEventsOnHighScoresButtonPressed()
