@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,8 +12,17 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private List<GameObject> LargeAsteroidTypes = new List<GameObject>();
     [SerializeField] private int MinNumberOfAsteroidChunks;
     [SerializeField] private int MaxNumberOfAsteroidChunks;
+    [SerializeField] private float TimeBetweenWaves;
+    [SerializeField] private float TimeBetweenAsteroids;
+    [SerializeField] private int MaxAsteroidPerWave;
+    [SerializeField] private int MinAsteroidPerWave;
+    
+    [SerializeField] private float DifficultyTimeBetweenWavesDegradation;
+    
+    
     [SerializeField] private GameObject Projectile;
 
+    private Coroutine _startWavesCoroutine;
     void Awake()
     {
         if (Instance == null)
@@ -23,6 +33,10 @@ public class SpawnManager : MonoBehaviour
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
     }
 
+    private void Start()
+    {
+        _startWavesCoroutine = StartCoroutine(SpawnAsteroidWavesCoroutine(TimeBetweenWaves, TimeBetweenAsteroids, MinAsteroidPerWave, MaxAsteroidPerWave));
+    }
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidSize size)
     {
         // AsteroidControl destroyedAsteroidControl = asteroidCollider.gameObject.GetComponent<AsteroidControl>();
@@ -66,6 +80,30 @@ public class SpawnManager : MonoBehaviour
         projectile.SetActive(true);
         projectileControl.SetMovement(playerTransform.up);
         
+    }
+
+    private IEnumerator SpawnAsteroidWavesCoroutine(float timeBetweenWaves, float timeBetweenAsteroids, int minAsteroidPerWave, int maxAsteroidPerWave)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(timeBetweenWaves);
+            int asteroidCount = Random.Range(minAsteroidPerWave, maxAsteroidPerWave + 1);
+            for (int i = 0; i < asteroidCount; i++)
+            {
+                SpawnAsteroid();
+                yield return new WaitForSeconds(timeBetweenAsteroids);
+            }
+        }
+    }
+
+    private void SpawnAsteroid()
+    {
+        SpawnAsteroid((AsteroidSize)(Random.Range(1, Enum.GetValues(typeof(AsteroidSize)).Length)));
+    }
+
+    private void SpawnAsteroid(AsteroidSize size)
+    {
+        SpawnAsteroid(size, null);
     }
 
     private void SpawnAsteroid(AsteroidSize size, Vector3? position)
