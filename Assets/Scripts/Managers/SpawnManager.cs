@@ -21,7 +21,7 @@ public class SpawnManager : MonoBehaviour
     
     
     [SerializeField] private GameObject Projectile;
-
+    private Dictionary<int, AsteroidControl> CurrentAsteroids = new Dictionary<int, AsteroidControl>();
     private Coroutine _startWavesCoroutine;
     void Awake()
     {
@@ -29,18 +29,32 @@ public class SpawnManager : MonoBehaviour
         {
             Instance = this;
         }
+        GameEvents.GameStarted += GameEventsOnGameStarted;
+        GameEvents.AsteroidSelfDestructed += GameEventsOnAsteroidSelfDestructed;
+        GameEvents.GameOver += GameEventsOnGameOver;
         GameEvents.ProjectileFired += GameEventsOnProjectileFired;
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
     }
 
-    private void Start()
+    private void GameEventsOnAsteroidSelfDestructed(Collider asteroidCollider, AsteroidControl asteroicControl)
+    {
+        
+    }
+
+
+    private void GameEventsOnGameStarted()
     {
         _startWavesCoroutine = StartCoroutine(SpawnAsteroidWavesCoroutine(TimeBetweenWaves, TimeBetweenAsteroids, MinAsteroidPerWave, MaxAsteroidPerWave));
     }
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidSize size)
+    
+    private void GameEventsOnGameOver()
     {
-        // AsteroidControl destroyedAsteroidControl = asteroidCollider.gameObject.GetComponent<AsteroidControl>();
-        
+        StopCoroutine(_startWavesCoroutine);
+    }
+    
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
+    {
+        AsteroidSize size = asteroidControl.GetAsteroidSize();
         if (size == AsteroidSize.Large)
         {
 
@@ -61,14 +75,9 @@ public class SpawnManager : MonoBehaviour
                 SpawnAsteroid(AsteroidSize.Small, asteroidCollider.gameObject.transform.position);
             }
         }
-        // if (destroyedAsteroidControl.GetAsteroidSize() != AsteroidSize.Small)
-        // {
-        //     int amount = Random.Range(MinNumberOfAsteroidChunks, MaxNumberOfAsteroidChunks + 1);
-        //     for (int i = 0; i < amount; i++)
-        //     {
-        //         SpawnAsteroid(destroyedAsteroidControl.GetAsteroidSize() - 1, asteroidCollider.gameObject.transform.position);
-        //     }
-        // }
+
+        CurrentAsteroids.Remove(asteroidCollider.GetInstanceID());
+
     }
 
     private void GameEventsOnProjectileFired(Transform playerTransform, float projectileSpeed)
@@ -150,6 +159,7 @@ public class SpawnManager : MonoBehaviour
         asteroidControl.SetRandomSpeed();
         asteroid.SetActive(true);
         asteroidControl.SetMovement(GameUtils.GetRandomizeDirectionVector());
+        CurrentAsteroids.Add(asteroid.GetInstanceID(), asteroidControl);
     }
 
     public void Update()

@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,15 +15,13 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
-        // GameEvents.FirePlayerHitByAsteroid();
     }
 
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidSize size)
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
     {
         //TODO remove this switch case and introduce Automatic enum dictionary calculations on inspector (probably will require serializable dictionary
-        switch (size)
+        switch (asteroidControl.GetAsteroidSize())
         {
             case AsteroidSize.Small:
                 _score += SmallAsteroidScore;

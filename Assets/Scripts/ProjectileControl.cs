@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
+﻿using System.Collections;
 using UnityEngine;
 
 public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
@@ -29,7 +26,7 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
         _despawnCoroutine = StartCoroutine("StartTimerCountdownCoroutine");
     }
 
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidSize arg3)
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
     {
         if (projectileCollider == _collider)
         {

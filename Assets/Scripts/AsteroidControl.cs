@@ -26,7 +26,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         _selfCheckCoroutine = StartCoroutine(SelfDestructIfTooFar());
     }
 
-    private void GameEventsOnPlayerHitByAsteroid(Collider asteroidCollider)
+    private void GameEventsOnPlayerHitByAsteroid(Collider asteroidCollider, AsteroidControl asteroidControl)
     {
         if (asteroidCollider == _collider)
         {
@@ -53,16 +53,9 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     
     private void OnTriggerEnter(Collider otherCollider)
     {
-        // if (otherCollider.gameObject.CompareTag("Player"))
-        // {
-        //     Debug.Log("Player Hit!");
-        //     GameEvents.FirePlayerHitByAsteroid(_collider);
-        //     DeSpawn();
-        // }
-
         if (otherCollider.gameObject.CompareTag("Projectile"))
         {
-            GameEvents.FireAsteroidHitByProjectile(otherCollider, _collider, _asteroidSize); 
+            GameEvents.FireAsteroidHitByProjectile(otherCollider, _collider, this); 
             DeSpawn();
         }
     }
@@ -97,7 +90,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
             yield return new WaitForSeconds(1);
             if (Vector3.Distance(transform.position, Vector3.zero) >= Constants.SELF_DESTRUCT_DISTANCE)
             {
-                GameEvents.FireAsteroidSelfDestructed(_collider);
+                GameEvents.FireAsteroidSelfDestructed(_collider, this);
                 DeSpawn();
             }
         }
