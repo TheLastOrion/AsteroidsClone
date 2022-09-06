@@ -42,7 +42,7 @@ public class ProjectileControl : MonoBehaviour, IPoolable, IAutoMoveable
         DeSpawn();
     }
 
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl, Transform asteroidContainerTransform)
     {
         if (projectileCollider == _collider)
         {

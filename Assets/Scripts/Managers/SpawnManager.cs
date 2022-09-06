@@ -40,7 +40,7 @@ public class SpawnManager : MonoBehaviour
     {
         GameEvents.FireGameStarted();
     }
-    private void GameEventsOnAsteroidSelfDestructed(Collider asteroidCollider, AsteroidControl asteroicControl)
+    private void GameEventsOnAsteroidSelfDestructed(Collider asteroidCollider, AsteroidControl asteroicControl, Transform asteroidContainerTransform)
     {
         // CurrentAsteroids.Remove(asteroicControl.GetInstanceID());
     }
@@ -56,7 +56,7 @@ public class SpawnManager : MonoBehaviour
         StopCoroutine(_startWavesCoroutine);
     }
     
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl, Transform asteroidContainerTransform)
     {
         AsteroidSize size = asteroidControl.GetAsteroidSize();
         if (size == AsteroidSize.Large)
@@ -67,7 +67,7 @@ public class SpawnManager : MonoBehaviour
 
             for (int i = 0; i < amount; i++)
             {
-                SpawnAsteroid(AsteroidSize.Medium, asteroidCollider.gameObject.transform.position);
+                SpawnAsteroid(AsteroidSize.Medium, asteroidContainerTransform.position);
             }
         }
         else if (size == AsteroidSize.Medium)
@@ -76,7 +76,7 @@ public class SpawnManager : MonoBehaviour
             Debug.LogFormat("{0} size asteroid destroyed, spawning {1} small asteroids",size, amount);
             for (int i = 0; i < amount; i++)
             {
-                SpawnAsteroid(AsteroidSize.Small, asteroidCollider.gameObject.transform.position);
+                SpawnAsteroid(AsteroidSize.Small, asteroidContainerTransform.position);
             }
         }
 
@@ -128,15 +128,19 @@ public class SpawnManager : MonoBehaviour
             case AsteroidSize.Small:
                 index = Random.Range(0, SmallAsteroidTypes.Count);
                 asteroid = ObjectPooler.Instance.GetPooledObject(SmallAsteroidTypes[index]);
-
+                Debug.LogFormat("GetPooledObject Name {0}", asteroid.name);
                 break;
             case AsteroidSize.Medium:
                 index = Random.Range(0, MediumAsteroidTypes.Count);
                 asteroid = ObjectPooler.Instance.GetPooledObject(MediumAsteroidTypes[index]);
+                Debug.LogFormat("GetPooledObject Name {0}", asteroid.name);
+
                 break;
             case AsteroidSize.Large:
                 index = Random.Range(0, LargeAsteroidTypes.Count);
                 asteroid = ObjectPooler.Instance.GetPooledObject(LargeAsteroidTypes[index]);
+                Debug.LogFormat("GetPooledObject Name {0}", asteroid.name);
+
                 break;
             default:
                 Debug.LogErrorFormat("Asteroid Type not found, likely a bug!");

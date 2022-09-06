@@ -6,23 +6,23 @@ public static class GameEvents
     public static event Action GameStarted;
     public static event Action GameOver;
     public static event Action<Transform, float> ProjectileFired;
-    public static event Action<Collider, Collider, AsteroidControl> AsteroidHitByProjectile;
+    public static event Action<Collider, Collider, AsteroidControl, Transform> AsteroidHitByProjectile;
     public static event Action<BorderType, Collider> BorderExit;
 
-    public static event Action<Collider, AsteroidControl> PlayerHitByAsteroid;
-    public static event Action<Collider, AsteroidControl> AsteroidSelfDestructed;
+    public static event Action<Collider> PlayerHitByAsteroid;
+    public static event Action<Collider, AsteroidControl, Transform> AsteroidSelfDestructed;
 
     public static event Action<int> ScoreChanged;
     public static event Action<int> HighScoreChanged;
 
-    public static void FireProjectileFired(Transform playerTransfom, float projectileSpeed)
+    public static void FireProjectileFired(Transform playerTransform, float projectileSpeed)
     {
-        ProjectileFired?.Invoke(playerTransfom, projectileSpeed);
+        ProjectileFired?.Invoke(playerTransform, projectileSpeed);
     }
     
-    public static void FireAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
+    public static void FireAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl, Transform asteroidContainerTransform)
     {
-        AsteroidHitByProjectile?.Invoke(projectileCollider, asteroidCollider, asteroidControl);
+        AsteroidHitByProjectile?.Invoke(projectileCollider, asteroidCollider, asteroidControl, asteroidContainerTransform);
     }
 
     public static void FireBorderExit(BorderType borderType, Collider collider)
@@ -30,14 +30,14 @@ public static class GameEvents
         BorderExit?.Invoke(borderType, collider);
     }
 
-    public static void FirePlayerHitByAsteroid(Collider asteroidCollider, AsteroidControl asteroidControl)
+    public static void FirePlayerHitByAsteroid(Collider asteroidCollider)
     {
-        PlayerHitByAsteroid?.Invoke(asteroidCollider, asteroidControl);
+        PlayerHitByAsteroid?.Invoke(asteroidCollider);
     }
 
-    public static void FireAsteroidSelfDestructed(Collider asteroidCollider, AsteroidControl asteroidControl)
+    public static void FireAsteroidSelfDestructed(Collider asteroidCollider, AsteroidControl asteroidControl, Transform asteroidContainerTransform)
     {
-        AsteroidSelfDestructed?.Invoke(asteroidCollider, asteroidControl);
+        AsteroidSelfDestructed?.Invoke(asteroidCollider, asteroidControl, asteroidContainerTransform);
     }
 
     public static void FireScoreChanged(int newScore)

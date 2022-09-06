@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         GameEvents.FireScoreChanged(_score);
     }
     
-    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl)
+    private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl, Transform asteroidContainerTransform)
     {
         //TODO remove this switch case and introduce Automatic enum dictionary calculations on inspector (probably will require serializable dictionary
         switch (asteroidControl.GetAsteroidSize())

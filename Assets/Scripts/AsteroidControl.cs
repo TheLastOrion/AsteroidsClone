@@ -6,17 +6,17 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
 {
     [FormerlySerializedAs("m_speed")] [SerializeField] private float _speed;
     
-    private Transform _moveTransform;
+    private Transform _containerMoveTransform;
     private Coroutine _moveCoroutine;
     private Coroutine _selfCheckCoroutine;
     private Collider _collider;
     [SerializeField] private AsteroidSize _asteroidSize;
     void Start()
     {
-        _moveTransform = transform.parent;
+        _containerMoveTransform = transform.parent;
         if (_collider == null)
         {
-            _collider = GetComponent<Collider>();
+            _collider = GetComponentInChildren<Collider>();
         }
     }
     void OnEnable()
@@ -41,7 +41,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         DeSpawn();
     }
 
-    private void GameEventsOnPlayerHitByAsteroid(Collider asteroidCollider, AsteroidControl asteroidControl)
+    private void GameEventsOnPlayerHitByAsteroid(Collider asteroidCollider)
     {
         if (asteroidCollider == _collider)
         {
@@ -55,7 +55,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     {
         if (teleportCollider == _collider)
         {
-            transform.position = GameUtils.FindTeleportPlace(transform, borderType);
+            _containerMoveTransform.position = GameUtils.FindTeleportPlace(_containerMoveTransform, borderType);
         }
     }
     
@@ -63,7 +63,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     {
         if (otherCollider.gameObject.CompareTag("Projectile"))
         {
-            GameEvents.FireAsteroidHitByProjectile(otherCollider, _collider, this); 
+            GameEvents.FireAsteroidHitByProjectile(otherCollider, _collider, this, _containerMoveTransform); 
             DeSpawn();
         }
     }
@@ -87,7 +87,7 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         while (true)
         {
             yield return new WaitForFixedUpdate();
-            _moveTransform.Translate(new Vector3(randX,randY , 0) * (_speed * Time.deltaTime));
+            _containerMoveTransform.Translate(new Vector3(randX,randY , 0) * (_speed * Time.deltaTime));
         }    
     }
 
@@ -96,9 +96,9 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
         while (true)
         {
             yield return new WaitForSeconds(1);
-            if (Vector3.Distance(transform.position, Vector3.zero) >= Constants.SELF_DESTRUCT_DISTANCE)
+            if (Vector3.Distance(_containerMoveTransform.position, Vector3.zero) >= Constants.SELF_DESTRUCT_DISTANCE)
             {
-                GameEvents.FireAsteroidSelfDestructed(_collider, this);
+                GameEvents.FireAsteroidSelfDestructed(_collider, this, _containerMoveTransform);
                 DeSpawn();
             }
         }
@@ -110,8 +110,8 @@ public class AsteroidControl : MonoBehaviour, IPoolable, IAutoMoveable
     
     public void DeSpawn()
     {
-        Debug.LogFormat("Despawning {0}", _moveTransform.gameObject.name);
-        ObjectPooler.Instance.RecyclePooledObject(_moveTransform.gameObject);
+        Debug.LogFormat("Despawning {0}", _containerMoveTransform.gameObject.name);
+        ObjectPooler.Instance.RecyclePooledObject(_containerMoveTransform.gameObject);
     }
     
 }

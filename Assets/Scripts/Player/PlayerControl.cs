@@ -9,7 +9,7 @@ public class PlayerControl : MonoBehaviour
         if (otherCollider.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Player Hit!");
-            GameEvents.FirePlayerHitByAsteroid(otherCollider, otherCollider.GetComponent<AsteroidControl>());
+            GameEvents.FirePlayerHitByAsteroid(otherCollider);
         }
     }
 }
