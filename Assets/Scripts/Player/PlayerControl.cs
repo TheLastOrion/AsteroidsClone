@@ -9,8 +9,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Transform _visualsTransform;
     [SerializeField] private float _invulnerabilityTime = 3f;
     private Coroutine _invulnerabilityCoroutine;
-    private void Start()
+    private void Awake()
     {
+        
         GameEvents.GameStarted += GameEventsOnGameStarted;
         GameEvents.GameOver += GameEventsOnGameOver;
     }
@@ -23,6 +24,7 @@ public class PlayerControl : MonoBehaviour
     private void GameEventsOnGameStarted()
     {
         _remainingLives = Constants.PLAYER_LIVES;
+        Debug.LogError("Remaining Lives: " + _remainingLives);
         _visualsTransform.gameObject.SetActive(true);
         gameObject.SetActive(true);
         SetInvulnerability(false);
@@ -39,12 +41,14 @@ public class PlayerControl : MonoBehaviour
 
         if (!_isInvulnerable && _remainingLives > 0)
         {
+            _remainingLives--;
             SetInvulnerability(true);
             _invulnerabilityCoroutine = StartCoroutine(InvulnerabilityCoroutine());
         }
 
-        if (_remainingLives == 0)
+        else if (_remainingLives == 0)
         {
+            Debug.LogError("HERE");
             GameEvents.FireGameOver();
         }
     }

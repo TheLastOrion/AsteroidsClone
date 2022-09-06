@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject GamePanel;
     [SerializeField] private GameObject HighScorePanel;
     [SerializeField] private GameObject SelectPanel;
+    private bool _mainSceneLoaded = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -20,8 +22,17 @@ public class UIManager : MonoBehaviour
         GameEvents.GameOver += GameEventsOnGameOver;
         UIEvents.HighScoresButtonPressed += UIEventsOnHighScoresButtonPressed;
         UIEvents.PlayGameButtonPressed += UIEventsOnPlayGameButtonPressed;
+        SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
     }
 
+    private void SceneManagerOnsceneLoaded(Scene scene, LoadSceneMode loadMode)
+    {
+        if (scene.name == "MainScene" && scene.isLoaded)
+        {
+            Debug.LogError("GAME START1");
+            GameEvents.FireGameStarted();
+        }
+    }
     private void GameEventsOnGameOver()
     {
         GamePanel.SetActive(false);
@@ -34,12 +45,18 @@ public class UIManager : MonoBehaviour
         GamePanel.SetActive(true);
         HighScorePanel.SetActive(false);
         SelectPanel.SetActive(false);
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("MainScene"))
+        if (!_mainSceneLoaded)
         {
             SceneManager.LoadScene("MainScene", LoadSceneMode.Additive);
             Debug.LogFormat("Loading Scene additively");
+            _mainSceneLoaded = true;
         }
-        GameEvents.FireGameStarted();
+        else
+        {
+            Debug.LogError("GAME START2");
+
+            GameEvents.FireGameStarted();
+        }
     }
 
     private void UIEventsOnHighScoresButtonPressed()

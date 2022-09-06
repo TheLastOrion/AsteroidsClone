@@ -56,6 +56,7 @@ public static class GameEvents
     }
     public static void FireGameOver()
     {
+        Debug.LogErrorFormat("GAME OVER");
         GameOver?.Invoke();
     }
     

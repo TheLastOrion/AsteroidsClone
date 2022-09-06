@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour
@@ -34,6 +35,8 @@ public class SpawnManager : MonoBehaviour
         GameEvents.ProjectileFired += GameEventsOnProjectileFired;
         GameEvents.AsteroidHitByProjectile += GameEventsOnAsteroidHitByProjectile;
     }
+
+
 
     private void GameEventsOnGameStarted()
     {
