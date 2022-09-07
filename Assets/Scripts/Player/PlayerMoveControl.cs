@@ -9,13 +9,18 @@ public class PlayerMoveControl : MonoBehaviour
     [FormerlySerializedAs("m_accelerationFactor")] [SerializeField] [Range(5f, 15f)] private float _accelerationFactor = 10f;
     [FormerlySerializedAs("m_turnSpeed")] [SerializeField] [Range(5f, 15f)] private float _turnSpeed = 5f;
     
-    public void Start()
+    public void Awake()
     {
         GameEvents.BorderExit += GameEventsOnBorderExit;
+        GameEvents.GameStarted += GameEvents_GameStarted;
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
     }
 
+    private void GameEvents_GameStarted()
+    {
+        Initialize();
+    }
 
     private void GameEventsOnBorderExit(BorderType borderType, Collider teleportCollider)
     {
@@ -42,6 +47,12 @@ public class PlayerMoveControl : MonoBehaviour
         {
             transform.Rotate(Vector3.forward, -1f * _turnSpeed);
         }
+    }
+
+    public void Initialize()
+    {
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
     }
     
 }
