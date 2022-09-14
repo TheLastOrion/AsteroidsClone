@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
 
     private void GameEventsOnGameStarted()
     {
-
+        _score = 0;
+        GameEvents.FireScoreChanged(_score);
     }
 
 
@@ -41,8 +42,7 @@ public class GameManager : MonoBehaviour
     
     private void GameEventsOnGameOver()
     {
-        _score = 0;
-        GameEvents.FireScoreChanged(_score);
+        
     }
     
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl, Transform asteroidContainerTransform)
