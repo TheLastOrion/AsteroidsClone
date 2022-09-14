@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     [SerializeField] private TextMeshProUGUI ScoreText;
+    [SerializeField] private TextMeshProUGUI LivesText;
     [SerializeField] private GameObject GamePanel;
     [SerializeField] private GameObject HighScorePanel;
     [SerializeField] private GameObject SelectPanel;
@@ -20,9 +21,21 @@ public class UIManager : MonoBehaviour
         }
         GameEvents.ScoreChanged += GameEventsOnScoreChanged; 
         GameEvents.GameOver += GameEventsOnGameOver;
+        GameEvents.LifeLost += GameEvents_LifeLost;
+        GameEvents.GameStarted += GameEvents_GameStarted;
         UIEvents.HighScoresButtonPressed += UIEventsOnHighScoresButtonPressed;
         UIEvents.PlayGameButtonPressed += UIEventsOnPlayGameButtonPressed;
         SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
+    }
+
+    private void GameEvents_GameStarted()
+    {
+        LivesText.text = "Lives: " + Constants.PLAYER_LIVES;
+    }
+
+    private void GameEvents_LifeLost(int remainingLives)
+    {
+        LivesText.text = "Lives: " + remainingLives;
     }
 
     private void SceneManagerOnsceneLoaded(Scene scene, LoadSceneMode loadMode)

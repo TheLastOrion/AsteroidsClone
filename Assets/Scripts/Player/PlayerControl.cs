@@ -41,13 +41,13 @@ public class PlayerControl : MonoBehaviour
             if (!_isInvulnerable && _remainingLives > 0)
             {
                 _remainingLives--;
+                GameEvents.FireLifeLost(_remainingLives);
                 SetInvulnerability(true);
                 _invulnerabilityCoroutine = StartCoroutine(InvulnerabilityCoroutine());
             }
 
             else if (_remainingLives == 0)
             {
-                Debug.LogError("HERE");
                 GameEvents.FireGameOver();
             }
         }
