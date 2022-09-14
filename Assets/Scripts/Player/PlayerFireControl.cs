@@ -10,7 +10,14 @@ public class PlayerFireControl : MonoBehaviour
     private void Start()
     {
         StartCoroutine("ShootWaitCoroutine");
+        GameEvents.GameStarted += GameEvents_GameStarted;
     }
+
+    private void GameEvents_GameStarted()
+    {
+        _canShoot = true;
+    }
+
     private void Update()
     {
         if (Input.GetKey(KeyCode.Space))

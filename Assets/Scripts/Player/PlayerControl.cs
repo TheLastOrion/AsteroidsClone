@@ -37,20 +37,22 @@ public class PlayerControl : MonoBehaviour
         {
             Debug.Log("Player Hit!");
             GameEvents.FirePlayerHitByAsteroid(otherCollider);
+
+            if (!_isInvulnerable && _remainingLives > 0)
+            {
+                _remainingLives--;
+                SetInvulnerability(true);
+                _invulnerabilityCoroutine = StartCoroutine(InvulnerabilityCoroutine());
+            }
+
+            else if (_remainingLives == 0)
+            {
+                Debug.LogError("HERE");
+                GameEvents.FireGameOver();
+            }
         }
 
-        if (!_isInvulnerable && _remainingLives > 0)
-        {
-            _remainingLives--;
-            SetInvulnerability(true);
-            _invulnerabilityCoroutine = StartCoroutine(InvulnerabilityCoroutine());
-        }
-
-        else if (_remainingLives == 0)
-        {
-            Debug.LogError("HERE");
-            GameEvents.FireGameOver();
-        }
+        
     }
     public void SetInvulnerability(bool isInvulnerable)
     {
