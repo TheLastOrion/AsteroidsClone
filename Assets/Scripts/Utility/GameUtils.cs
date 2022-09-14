@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public static class GameUtils
 {
@@ -54,5 +53,41 @@ public static class GameUtils
     public static Vector3 GetRandomizeDirectionVector()
     {
         return new Vector3(Random.Range(0, 359), Random.Range(0, 359), 0);
+    }
+
+    public static Vector3 FindProperRandomPositionAwayFromFighter(float distance, Vector3 fighterPosition)
+    {
+        for (int i = 0; i < Constants.ASTEROID_RANDOM_POS_TRY_COUNT; i++)
+        {
+            Vector3 pos = new Vector3(
+                Random.Range(
+                    Constants.SPAWN_MIN_COORD_X,
+                    Constants.SPAWN_MAX_COORD_X),
+                Random.Range(
+                    Constants.SPAWN_MIN_COORD_Y,
+                    Constants.SPAWN_MAX_COORD_Y));
+
+            if (Vector3.Distance(pos, fighterPosition) < distance)
+            {
+                //Debug.LogFormat("CONTINUE!  SpawnPos: {0}  FighterPos: {1}   Distance:{2} ", pos, fighterPosition,
+                //    Vector3.Distance(pos, fighterPosition));
+                continue;
+            }
+            else
+            {
+                //Debug.LogFormat("RETURN!  SpawnPos: {0}  FighterPos: {1}   Distance:{2} ", pos, fighterPosition,
+                //    Vector3.Distance(pos, fighterPosition));
+                return pos;
+            }
+        }
+        Debug.LogWarning("Try count has been reached, returning random position within limits");
+        return new Vector3(
+            Random.Range(
+                Constants.SPAWN_MIN_COORD_X,
+                Constants.SPAWN_MAX_COORD_X),
+            Random.Range(
+                Constants.SPAWN_MIN_COORD_Y,
+                Constants.SPAWN_MAX_COORD_Y));
+
     }
 }

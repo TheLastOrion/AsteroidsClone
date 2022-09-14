@@ -11,4 +11,5 @@ public static class Constants
     public const float SELF_DESTRUCT_DISTANCE = 15f;
     public const int PLAYER_LIVES = 3;
     public const float INVULNERABILITY_FLICKER_FREQUENCY = 0.5f;
+    public const int ASTEROID_RANDOM_POS_TRY_COUNT = 8;
 }

@@ -451,7 +451,9 @@ MonoBehaviour:
   TimeBetweenAsteroids: 0.5
   MaxAsteroidPerWave: 6
   MinAsteroidPerWave: 4
+  SpawnDistanceFromFighter: 2
   DifficultyTimeBetweenWavesDegradation: 0.5
+  FigterObject: {fileID: 935680256}
   Projectile: {fileID: 7134420985854115334, guid: a746138744c24fc4ba101013bd8aa462,
     type: 3}
 --- !u!1 &761295587

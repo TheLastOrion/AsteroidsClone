@@ -17,10 +17,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float TimeBetweenAsteroids;
     [SerializeField] private int MaxAsteroidPerWave;
     [SerializeField] private int MinAsteroidPerWave;
+    [SerializeField] private float SpawnDistanceFromFighter;
     
     [SerializeField] private float DifficultyTimeBetweenWavesDegradation;
-    
-    
+
+    [SerializeField] private GameObject FigterObject;
     [SerializeField] private GameObject Projectile;
     private Dictionary<int, AsteroidControl> CurrentAsteroids = new Dictionary<int, AsteroidControl>();
     private Coroutine _startWavesCoroutine;
@@ -144,13 +145,8 @@ public class SpawnManager : MonoBehaviour
         }
         else
         {
-            asteroid.transform.position = new Vector3(
-                Random.Range(
-                    Constants.SPAWN_MIN_COORD_X, 
-                    Constants.SPAWN_MAX_COORD_X), 
-                Random.Range(
-                    Constants.SPAWN_MIN_COORD_Y, 
-                    Constants.SPAWN_MAX_COORD_Y));
+            asteroid.transform.position = GameUtils.FindProperRandomPositionAwayFromFighter(SpawnDistanceFromFighter,
+                FigterObject.transform.position);
         }
         
         asteroid.transform.SetParent(transform);
