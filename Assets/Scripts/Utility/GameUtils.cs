@@ -67,6 +67,14 @@ public static class GameUtils
                     Constants.SPAWN_MIN_COORD_Y,
                     Constants.SPAWN_MAX_COORD_Y));
 
+            if (Vector3.Distance(pos, fighterPosition) < distance)
+            {
+                continue;
+            }
+            else
+            {
+                return pos;
+            }
         }
         Debug.LogWarning("Try count has been reached, returning random position within limits");
         return new Vector3(

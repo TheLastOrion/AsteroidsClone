@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int LargeAsteroidScore;
     private int _score;
     private int _highScore;
+    private bool _isHighScore = false;
     void Awake()
     {
         if (Instance == null)
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void GameEventsOnGameStarted()
     {
+        _isHighScore = false;
         _score = 0;
         GameEvents.FireScoreChanged(_score);
     }
@@ -42,9 +44,10 @@ public class GameManager : MonoBehaviour
     
     private void GameEventsOnGameOver()
     {
-        
+        if(_isHighScore)
+            GameEvents.FireHighScoreChanged(_highScore);
     }
-    
+
     private void GameEventsOnAsteroidHitByProjectile(Collider projectileCollider, Collider asteroidCollider, AsteroidControl asteroidControl, Transform asteroidContainerTransform)
     {
         //TODO remove this switch case and introduce Automatic enum dictionary calculations on inspector (probably will require serializable dictionary
@@ -63,9 +66,8 @@ public class GameManager : MonoBehaviour
         GameEvents.FireScoreChanged(_score);
         if (_score > _highScore)
         {
+            _isHighScore = true;
             _highScore += _score;
-            GameEvents.FireHighScoreChanged(_highScore);
-            
         }
     }
 }
